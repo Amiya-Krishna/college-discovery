@@ -99,7 +99,7 @@ export async function GET(req: Request) {
     }
 
     if (minFees !== undefined || maxFees !== undefined) {
-      const feesFilter: Prisma.FloatFilter = {};
+      const feesFilter: Prisma.DecimalFilter<"College"> = {};
       if (minFees !== undefined) feesFilter.gte = minFees;
       if (maxFees !== undefined) feesFilter.lte = maxFees;
       andFilters.push({ fees: feesFilter });
@@ -149,16 +149,11 @@ const createCollegeSchema = z.object({
   name: z.string().trim().min(2).max(255),
   city: z.string().trim().min(1).max(100),
   state: z.string().trim().min(1).max(100),
-  rating: z.coerce.number().min(0).max(5).optional(),
-  fees: z.coerce.number().min(0).optional(),
-  description: z.string().trim().max(2000).optional(),
-  website: z.string().url().optional(),
-  establishedYear: z.coerce
-    .number()
-    .int()
-    .min(1800)
-    .max(new Date().getFullYear())
-    .optional(),
+  fees: z.coerce.number().min(0),
+  rating: z.coerce.number().min(0).max(5),
+  highestPackage: z.coerce.number().min(0),
+  averagePackage: z.coerce.number().min(0),
+  overview: z.string().trim().min(1).max(2000),
 });
 
 export async function POST(req: Request) {

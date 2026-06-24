@@ -113,7 +113,7 @@ function Pagination({ page, totalPages, onChange }: {
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 
-export default function CollegesPage() {
+function CollegesContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -368,5 +368,15 @@ export default function CollegesPage() {
         <Pagination page={page} totalPages={totalPages} onChange={handlePageChange} />
       </div>
     </main>
+  );
+}
+
+import { Suspense } from "react";
+
+export default function CollegesPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <CollegesContent />
+    </Suspense>
   );
 }
