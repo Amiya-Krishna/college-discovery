@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String         @id @default(uuid()) @db.Uuid
+  name          String         @db.VarChar(120)
+  email         String         @unique @db.VarChar(255)
+  password      String         @db.VarChar(255)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  savedColleges SavedCollege[]
+  resetTokens   PasswordResetToken[]
+
+  @@index([name])
+}
+
+model College {
+  id             String         @id @default(uuid()) @db.Uuid
+  name           String         @db.VarChar(255)
+  state          String         @db.VarChar(100)
+  city           String         @db.VarChar(100)
+  fees           Decimal        @db.Decimal(12, 2)
+  rating         Decimal        @db.Decimal(3, 2)
+  highestPackage Decimal        @db.Decimal(12, 2)
+  averagePackage Decimal        @db.Decimal(12, 2)
+  overview       String
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  courses        Course[]
+  reviews        Review[]
+  savedBy        SavedCollege[]
+
+  @@index([name])
+  @@index([state, city])
+  @@index([rating])
+  // Indexing suggestion: for heavier keyword/location search, consider a PostgreSQL trigram or full-text index on name, state, and city.
+}
+
+model Course {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String   @db.VarChar(255)
+  duration  String   @db.VarChar(100)
+  fees      Decimal  @db.Decimal(12, 2)
+  collegeId String   @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  college   College  @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+
+  @@index([collegeId])
+  @@index([name])
+}
+
+model Review {
+  id        String   @id @default(uuid()) @db.Uuid
+  rating    Int      @db.SmallInt
+  comment   String
+  collegeId String   @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  college   College  @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+
+  @@index([collegeId])
+  @@index([rating])
+}
+
+model SavedCollege {
+  userId    String   @db.Uuid
+  collegeId String   @db.Uuid
+  createdAt DateTime @default(now())
+  id        String   @id @default(uuid()) @db.Uuid
+  college   College  @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, collegeId])
+  @@index([userId])
+  @@index([collegeId])
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String   @db.Uuid   // ← add this
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
