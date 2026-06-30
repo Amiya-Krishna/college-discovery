@@ -1,4 +1,4 @@
-# College Discovery Plateform
+# College Discovery Platform
 
 College Discovery is a full-stack Next.js application for searching, comparing, saving, and ranking colleges. It combines authenticated user workflows, Prisma-backed data access, deterministic recommendation scoring, and an AI-assisted guidance layer for college decision support.
 
