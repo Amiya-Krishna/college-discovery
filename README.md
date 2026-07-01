@@ -30,6 +30,9 @@ This repository is structured as an AI Software Engineer Internship submission, 
 - Recommendation API that ranks colleges using configurable rank, fee, and placement weights.
 - AI-assisted prediction and comparison guidance via a server-side proxy route.
 
+## System Architecture
+![System Architecture](screenshots/system_architecture.png)
+
 ## Screenshots
 
 | College List | College Details

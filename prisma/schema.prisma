@@ -8,14 +8,14 @@ datasource db {
 }
 
 model User {
-  id            String         @id @default(uuid()) @db.Uuid
-  name          String         @db.VarChar(120)
-  email         String         @unique @db.VarChar(255)
-  password      String         @db.VarChar(255)
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  savedColleges SavedCollege[]
+  id            String               @id @default(uuid()) @db.Uuid
+  name          String               @db.VarChar(120)
+  email         String               @unique @db.VarChar(255)
+  password      String               @db.VarChar(255)
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
   resetTokens   PasswordResetToken[]
+  savedColleges SavedCollege[]
 
   @@index([name])
 }
@@ -39,7 +39,6 @@ model College {
   @@index([name])
   @@index([state, city])
   @@index([rating])
-  // Indexing suggestion: for heavier keyword/location search, consider a PostgreSQL trigram or full-text index on name, state, and city.
 }
 
 model Course {
@@ -85,9 +84,9 @@ model SavedCollege {
 model PasswordResetToken {
   id        String   @id @default(cuid())
   token     String   @unique
-  userId    String   @db.Uuid   // ← add this
+  userId    String   @db.Uuid
   expiresAt DateTime
   used      Boolean  @default(false)
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
