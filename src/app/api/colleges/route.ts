@@ -154,6 +154,9 @@ const createCollegeSchema = z.object({
   highestPackage: z.coerce.number().min(0),
   averagePackage: z.coerce.number().min(0),
   overview: z.string().trim().min(1).max(2000),
+  website: z.string().trim().url().max(500),
+  type: z.string().trim().min(1).max(100),
+  admissionProcess: z.string().trim().min(1).max(255),
 });
 
 export async function POST(req: Request) {

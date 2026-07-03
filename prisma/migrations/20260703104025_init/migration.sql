@@ -23,6 +23,9 @@ CREATE TABLE "College" (
     "overview" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "website" TEXT,
+    "type" VARCHAR(100) NOT NULL,
+    "admissionProcess" VARCHAR(255) NOT NULL,
 
     CONSTRAINT "College_pkey" PRIMARY KEY ("id")
 );

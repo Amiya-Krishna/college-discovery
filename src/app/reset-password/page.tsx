@@ -4,6 +4,7 @@ import axios from "axios";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
+import PasswordInput from "../components/PasswordInput";
 
 function ResetPasswordContent() {
   const router = useRouter();
@@ -99,14 +100,14 @@ function ResetPasswordContent() {
 
                 <div>
                   <label htmlFor="password" className="mb-1.5 block text-xs font-medium text-slate-400">New password</label>
-                  <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)}
-                    className="input-dark" placeholder="New password" autoComplete="new-password" required />
+                  <PasswordInput id="password" value={password} onChange={(e) => setPassword(e.target.value)}
+                    placeholder="New password" autoComplete="new-password" required />
                 </div>
 
                 <div>
                   <label htmlFor="confirm" className="mb-1.5 block text-xs font-medium text-slate-400">Confirm password</label>
-                  <input id="confirm" type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)}
-                    className="input-dark" placeholder="Confirm new password" autoComplete="new-password" required />
+                  <PasswordInput id="confirm" value={confirm} onChange={(e) => setConfirm(e.target.value)}
+                    placeholder="Confirm new password" autoComplete="new-password" required />
                 </div>
 
                 <button type="submit" disabled={loading} className="btn-primary mt-2 w-full py-3">

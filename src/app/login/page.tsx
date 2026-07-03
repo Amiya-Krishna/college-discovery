@@ -4,6 +4,7 @@ import axios from "axios";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
+import PasswordInput from "../components/PasswordInput";
 
 type LoginResponse = {
   success?: boolean;
@@ -98,12 +99,10 @@ function LoginContent() {
                     Forgot password?
                   </Link>
                 </div>
-                <input
+                <PasswordInput
                   id="password"
-                  type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="input-dark"
                   placeholder="Your password"
                   autoComplete="current-password"
                   required

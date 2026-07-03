@@ -26,6 +26,9 @@ type CollegeDetail = {
   averagePackage: number | string;
   city: string;
   state: string;
+  website: string;
+  type: string;
+  admissionProcess: string;
   courses: Course[];
   reviews: Review[];
 };
@@ -58,6 +61,24 @@ function StatCard({ label, value, accent = false }: { label: string; value: stri
       <p className="text-xs font-medium uppercase tracking-wider text-slate-500">{label}</p>
       <p className={`mt-2 text-xl font-bold ${accent ? "text-indigo-300" : "text-white"}`}>{value}</p>
     </div>
+  );
+}
+
+function SectionCard({
+  title,
+  eyebrow,
+  children,
+}: {
+  title: string;
+  eyebrow: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="rounded-2xl border border-white/[0.07] bg-[#0f1629] p-6">
+      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-indigo-400/80">{eyebrow}</p>
+      <h2 className="mt-2 text-lg font-semibold text-white">{title}</h2>
+      <div className="mt-4">{children}</div>
+    </section>
   );
 }
 
@@ -286,6 +307,22 @@ export default function CollegeDetailPage() {
                   </svg>
                   {college.city}, {college.state}
                 </p>
+                <div className="mt-3 flex flex-wrap items-center gap-2">
+                  <span className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 text-xs font-medium text-slate-300">
+                    {college.type}
+                  </span>
+                  <a
+                    href={college.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-3 py-1 text-xs font-semibold text-indigo-300 transition hover:border-indigo-500/60 hover:bg-indigo-500/20"
+                  >
+                    Official Website
+                    <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                    </svg>
+                  </a>
+                </div>
               </div>
 
               {/* ── Save button ── */}
@@ -319,6 +356,8 @@ export default function CollegeDetailPage() {
               <dl className="mt-4 space-y-3 text-sm">
                 {[
                   { label: "Location", value: `${college.city}, ${college.state}` },
+                  { label: "Type", value: college.type },
+                  { label: "Admission Process", value: college.admissionProcess },
                   { label: "Fees", value: formatCurrency(college.fees) },
                   { label: "Rating", value: Number(college.rating).toFixed(1) },
                   { label: "Avg Package", value: formatCurrency(college.averagePackage) },
@@ -331,6 +370,42 @@ export default function CollegeDetailPage() {
                 ))}
               </dl>
             </div>
+          </div>
+
+          <div className="grid gap-4 border-t border-white/[0.07] px-6 py-6 sm:px-8 lg:grid-cols-3">
+            <SectionCard eyebrow="Admissions" title="How to Apply">
+              <div className="space-y-3 text-sm leading-6 text-slate-300">
+                <p>{college.admissionProcess}</p>
+                <p className="text-slate-400">
+                  Always verify the application window, entrance-exam requirements, counselling steps, and document list on the official website before applying.
+                </p>
+              </div>
+            </SectionCard>
+
+            <SectionCard eyebrow="Decision Guide" title="What to Compare">
+              <ul className="space-y-2 text-sm leading-6 text-slate-300">
+                <li>Placement record for your branch or program.</li>
+                <li>Total fees, hostel cost, and scholarship options.</li>
+                <li>Location, commute, campus culture, and internship access.</li>
+                <li>Accreditation, faculty strength, and alumni network.</li>
+              </ul>
+            </SectionCard>
+
+            <SectionCard eyebrow="Official Site" title="Useful Links">
+              <div className="space-y-3 text-sm leading-6 text-slate-300">
+                <a
+                  href={college.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-3 py-1 text-xs font-semibold text-indigo-300 transition hover:border-indigo-500/60 hover:bg-indigo-500/20"
+                >
+                  Open official college website
+                </a>
+                <p className="text-slate-400">
+                  Use the admissions portal for brochure downloads, fee notices, cutoffs, and course-specific eligibility rules.
+                </p>
+              </div>
+            </SectionCard>
           </div>
         </section>
 

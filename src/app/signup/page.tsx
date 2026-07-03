@@ -4,6 +4,7 @@ import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import PasswordInput from "../components/PasswordInput";
 
 type SignupResponse = {
   success?: boolean;
@@ -94,8 +95,8 @@ export default function SignupPage() {
 
               <div>
                 <label htmlFor="password" className="mb-1.5 block text-xs font-medium text-slate-400">Password</label>
-                <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)}
-                  className="input-dark" placeholder="Min 6 characters" autoComplete="new-password" required />
+                <PasswordInput id="password" value={password} onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Min 6 characters" autoComplete="new-password" required />
               </div>
 
               <button type="submit" disabled={loading} className="btn-primary mt-2 w-full py-3">
